@@ -6,4 +6,4 @@ RUN pip install --trusted-host https://mirrors.aliyun.com -i https://mirrors.ali
 COPY . .
 
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD bash -c "python manage.py runserver 0.0.0.0:8000 & celery -A taaghche worker --loglevel=info"
