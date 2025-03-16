@@ -1,0 +1,38 @@
+services:
+    redis:
+      image: docker.arvancloud.ir/redis:latest
+      container_name: redis
+      restart: on-failure
+      ports:
+        - "6379:6379"
+
+      networks:
+        - main
+
+    rabbitmq:
+      image: docker.arvancloud.ir/rabbitmq:3-management
+      container_name: rabbitmq
+      hostname: rabbitmq
+      ports:
+        - "5672:5672" 
+        - "15672:15672" 
+      environment:
+        RABBITMQ_DEFAULT_USER: user
+        RABBITMQ_DEFAULT_PASS: password
+      restart: always
+      networks:
+        - main
+    
+    backend:
+      container_name: taaghche
+      image: taaghche
+      ports:
+        - "8000:8000"
+      depends_on:
+        - redis
+        - rabbitmq
+      networks:
+        - main
+
+networks:
+  main:
